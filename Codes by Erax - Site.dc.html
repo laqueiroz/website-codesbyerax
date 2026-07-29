@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#040309;font-family:"IBM Plex Sans",system-ui,sans-serif;color:#EDEAF6;-webkit-font-smoothing:antialiased}
+a{color:#c3adf3;text-decoration:none}a:hover{color:#e2d6ff}
+::selection{background:rgba(139,92,240,.4)}
+@keyframes rotslow{to{transform:rotate(360deg)}}
+@keyframes rotrev{to{transform:rotate(-360deg)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes blinkdot{0%,100%{opacity:.2}50%{opacity:1}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+[data-rise]{opacity:0}
+[data-rise].in{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) forwards}
+h1{font-size:clamp(44px,7.2vw,92px)!important}
+@keyframes introMark{0%{opacity:0;transform:scale(.82)}45%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1.04)}}
+@keyframes introRing{0%{transform:scale(.5);opacity:0}40%{opacity:.7}100%{transform:scale(1.9);opacity:0}}
+@keyframes introWord{0%{opacity:0;letter-spacing:.7em}100%{opacity:1;letter-spacing:.34em}}
+@keyframes introOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes flare{0%,88%,100%{opacity:0;transform:scale(.4)}94%{opacity:1;transform:scale(1)}}
+#intro{animation:introOut .9s ease 2.5s forwards}
+#intro[data-skip]{animation-delay:0s;animation-duration:.4s}
+header#top>div:nth-of-type(2){animation:heroIn 1.2s cubic-bezier(.2,.7,.2,1) 2.5s both}
+header#top>div:nth-of-type(3){animation:heroIn 1.3s cubic-bezier(.2,.7,.2,1) 2.75s both}
+header#top>div:nth-of-type(4){animation:heroIn 1s ease 3.2s both}
+[data-soon] [data-soon-label]{opacity:0;transition:opacity .45s cubic-bezier(.2,.7,.2,1)}
+[data-soon] [data-nebula]{transition:opacity .5s ease}
+[data-soon]:hover [data-soon-label]{opacity:1}
+[data-soon]:hover [data-nebula]{opacity:.35}
+section>div>h2,section h2{font-size:clamp(32px,4.2vw,62px)!important}
+@media (max-width:1180px){
+ nav{flex-wrap:wrap!important;row-gap:12px!important}
+ nav>div{gap:18px!important}
+ header#top{grid-template-columns:1fr!important;min-height:0!important;padding-top:72px!important;padding-bottom:96px!important}
+ header#top>div:nth-of-type(3){max-width:520px!important;margin-top:56px!important}
+ #app>div{grid-template-columns:1fr!important;gap:44px!important}
+ #produtos>div:last-of-type{grid-template-columns:1fr 1fr!important}
+ #produtos>div:nth-of-type(2){display:none!important}
+ #porque>div:last-of-type,footer>div:first-of-type{grid-template-columns:1fr 1fr!important}
+ #porque>div:last-of-type>div,#roadmap>div:last-of-type>div>div{border-right:0!important;padding-left:0!important;padding-right:0!important}
+ #roadmap>div:last-of-type>div{grid-template-columns:1fr 1fr!important;row-gap:44px!important}
+ #roadmap>div:last-of-type>div[style*="height:1px"]{display:none!important}
+ #suporte>div:last-of-type{grid-template-columns:1fr!important}
+}
+@media (max-width:760px){
+ nav{padding:14px 20px!important;gap:14px!important}
+ nav a[href="#produtos"],nav a[href="#porque"],nav a[href="#roadmap"],nav a[href="#app"],nav a[href="#suporte"]{display:none!important}
+ header,section,footer{padding-left:20px!important;padding-right:20px!important}
+ #download{margin:84px 20px 0!important;padding:72px 24px!important}
+ #produtos>div:last-of-type,#porque>div:last-of-type,#roadmap>div:last-of-type>div,footer>div:first-of-type{grid-template-columns:1fr!important;row-gap:32px!important}
+ section>div[style*="grid-template-columns:auto 1fr"]{grid-template-columns:1fr!important;gap:20px!important}
+ #app>div>div:last-of-type>div:last-of-type>div:last-of-type{grid-template-columns:1fr!important}
+ #app>div>div:last-of-type>div:last-of-type>div:last-of-type>div:first-of-type{display:none!important}
+}
+</style>
+<script>
+(function(){
+ if(window.__eraxSite) return; window.__eraxSite=1;
+ function stars(cv){
+  var ctx=cv.getContext('2d'),w,h,dpr=Math.min(2,window.devicePixelRatio||1),pts=[],link=cv.dataset.link==='1',dens=+cv.dataset.dens||9000;
+  function size(){var r=cv.getBoundingClientRect();w=r.width||900;h=r.height||600;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+   var n=Math.min(340,Math.round(w*h/dens));pts=[];for(var i=0;i<n;i++){var fl=Math.random()<.12;
+    pts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+.25,a:Math.random()*6,s:Math.random()*.007+.002,vy:-(Math.random()*.05+.012),vx:(Math.random()-.5)*.03,fl:fl,hue:Math.random()<.3?'#7fe3e8':(Math.random()<.5?'#c3adf3':'#EDEAF6')});}}
+  size();new ResizeObserver(size).observe(cv);
+  (function loop(){
+   ctx.clearRect(0,0,w,h);
+   for(var i=0;i<pts.length;i++){var p=pts[i];p.a+=p.s;p.y+=p.vy;p.x+=p.vx;if(p.y<-4)p.y=h+4;if(p.x<-4)p.x=w+4;if(p.x>w+4)p.x=-4;
+    var al=.26+Math.abs(Math.sin(p.a))*.62;
+    if(p.fl){var t=(Math.sin(p.a*.42)+1)/2,g=Math.pow(t,7);
+     if(g>.02){ctx.save();ctx.shadowBlur=16*g;ctx.shadowColor=p.hue;ctx.beginPath();ctx.arc(p.x,p.y,p.r+1.5*g,0,6.284);ctx.fillStyle=p.hue;ctx.globalAlpha=Math.min(1,al+g);ctx.fill();ctx.restore();continue;}}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.284);ctx.fillStyle='rgba(226,218,255,'+al.toFixed(3)+')';ctx.fill();}
+   if(link)for(var i=0;i<pts.length;i+=3)for(var j=i+3;j<pts.length;j+=3){var a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;
+    if(d<11000){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(160,132,224,'+(.11*(1-d/11000)).toFixed(3)+')';ctx.lineWidth=.6;ctx.stroke();}}
+   requestAnimationFrame(loop);})();
+ }
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.14});
+ function onScroll(){var y=window.scrollY;document.querySelectorAll('[data-plx]').forEach(function(el){
+   var sp=parseFloat(el.dataset.plx)||.06,r=el.getBoundingClientRect(),c=r.top+r.height/2-window.innerHeight/2;
+   el.style.transform='translate3d(0,'+(-c*sp).toFixed(1)+'px,0)';});}
+ function scan(){
+  document.querySelectorAll('canvas[data-stars]:not([data-on])').forEach(function(cv){cv.setAttribute('data-on','1');try{stars(cv)}catch(e){}});
+  document.querySelectorAll('[data-rise]:not([data-obs])').forEach(function(el){el.setAttribute('data-obs','1');io.observe(el);});
+  document.querySelectorAll('[data-par]:not([data-on])').forEach(function(el){el.setAttribute('data-on','1');
+   var host=el.closest('[data-par-scope]')||el.parentElement,dep=parseFloat(el.dataset.par)||10;
+   host.addEventListener('mousemove',function(e){var r=host.getBoundingClientRect();
+    el.style.transform='translate3d('+(-((e.clientX-r.left)/r.width-.5)*dep).toFixed(2)+'px,'+(-((e.clientY-r.top)/r.height-.5)*dep).toFixed(2)+'px,0)';});
+   host.addEventListener('mouseleave',function(){el.style.transform='translate3d(0,0,0)';});});
+ }
+ scan();setInterval(scan,700);
+ var root=document.documentElement;root.style.overflow='hidden';
+ setTimeout(function(){root.style.overflow=''},3300);
+ document.addEventListener('click',function(e){var i=document.getElementById('intro');
+  if(i&&!i.hasAttribute('data-skip')&&getComputedStyle(i).visibility!=='hidden'){i.setAttribute('data-skip','');root.style.overflow='';}},true);
+ window.addEventListener('scroll',function(){requestAnimationFrame(onScroll)},{passive:true});onScroll();
+})();
+</script>
+</helmet>
+
+<div style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(90% 70% at 70% 8%,#160f2c 0%,#0a0718 42%,#040309 100%)">
+  <canvas data-stars data-link="1" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+</div>
+
+<div id="intro" style="position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(80% 70% at 50% 45%,#160f2c 0%,#0a0718 45%,#040309 100%);cursor:pointer">
+  <div style="position:relative;width:min(46vw,380px);aspect-ratio:1;display:grid;place-items:center">
+    <div style="position:absolute;inset:0;border:1px solid rgba(182,156,240,.35);border-radius:50%;animation:introRing 2.6s cubic-bezier(.2,.7,.2,1) .3s forwards"></div>
+    <div style="position:absolute;inset:0;border:1px solid rgba(127,227,232,.28);border-radius:50%;animation:introRing 2.6s cubic-bezier(.2,.7,.2,1) .8s forwards"></div>
+    <img src="assets/logo-mark.png" alt="Codes by Erax" style="position:relative;width:74%;filter:drop-shadow(0 0 60px rgba(150,110,245,.55));animation:introMark 2.6s cubic-bezier(.2,.7,.2,1) both">
+  </div>
+  <p style="margin:34px 0 0;font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.72);animation:introWord 1.6s cubic-bezier(.2,.7,.2,1) .9s both">CODES BY ERAX</p>
+</div>
+
+<div style="position:relative;z-index:1;max-width:1680px;margin:0 auto">
+
+<nav style="position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 40px;background:rgba(6,5,13,.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)">
+  <a href="#top" style="display:flex;align-items:center;gap:12px">
+    <img src="assets/logo-mark.png" alt="Codes by Erax" style="height:32px;width:auto">
+    <span style="font:500 12.5px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:#EDEAF6">CODES<span style="color:rgba(237,234,246,.42)"> / BY ERAX</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:26px;font:400 13.5px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)">
+    <a href="#produtos" style="color:inherit" style-hover="color:#fff">Produtos</a>
+    <a href="#porque" style="color:inherit" style-hover="color:#fff">Por que nós</a>
+    <a href="#roadmap" style="color:inherit" style-hover="color:#fff">Roadmap</a>
+    <a href="#app" style="color:inherit" style-hover="color:#fff">Vínculo Tutoria</a>
+    <a href="#suporte" style="color:inherit" style-hover="color:#fff">Suporte</a>
+    <span style="display:flex;flex:none;align-items:center;border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden;font:500 10.5px/1 'IBM Plex Mono',monospace">
+      <span style="padding:7px 10px;background:rgba(237,234,246,.92);color:#0a0910">PT</span>
+      <span style="padding:7px 10px;color:rgba(237,234,246,.5)">EN</span>
+    </span>
+    <a href="#download" style="padding:11px 20px;border-radius:999px;background:rgba(237,234,246,.08);border:1px solid rgba(255,255,255,.15);color:#EDEAF6;font:400 13px/1 'IBM Plex Sans',sans-serif" style-hover="background:rgba(237,234,246,.16);border-color:rgba(127,227,232,.5)">Downloads</a>
+  </div>
+</nav>
+
+<header id="top" data-par-scope style="position:relative;min-height:840px;display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:40px;padding:100px 46px 120px;overflow:hidden">
+  <div data-par="22" style="position:absolute;inset:-60px;background:radial-gradient(26% 32% at 20% 78%,rgba(30,72,180,.30),transparent 70%),radial-gradient(28% 30% at 74% 22%,rgba(120,66,220,.28),transparent 70%);filter:blur(14px);transition:transform .9s cubic-bezier(.2,.7,.2,1);pointer-events:none"></div>
+
+  <div style="position:relative">
+    <p style="margin:0;font:400 11.5px/1 'IBM Plex Mono',monospace;letter-spacing:.32em;color:rgba(127,227,232,.78)">CARTA DE PRODUTOS · 2026</p>
+    <h1 style="margin:26px 0 0;font:300 92px/1 'Cormorant Garamond',serif;letter-spacing:-.022em;color:#F5F2FC">Tecnologia<br>que <em style="font-style:italic;color:#c3adf3">observa</em><br>a sala de aula.</h1>
+    <p style="margin:30px 0 0;max-width:520px;font:300 18px/1.78 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.6);text-wrap:pretty">Um estúdio pequeno construindo software de educação com padrão de produto grande. Aplicativos, ferramentas e inteligência artificial para quem ensina — cada um nascido de um problema real.</p>
+    <div style="display:flex;align-items:center;gap:22px;margin-top:40px;flex-wrap:wrap">
+      <a href="#download" style="display:flex;align-items:center;gap:12px;padding:16px 28px;border-radius:999px;background:#EDEAF6;color:#0a0910;font:500 14px/1 'IBM Plex Sans',sans-serif" style-hover="background:#fff;box-shadow:0 0 42px rgba(182,156,240,.45)">Baixar Vínculo Tutoria <span style="font:400 11px/1 'IBM Plex Mono',monospace;opacity:.55">WIN · 24 MB</span></a>
+      <a href="#produtos" style="font:400 13.5px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.68);border-bottom:1px solid rgba(237,234,246,.24);padding-bottom:5px" style-hover="color:#7fe3e8;border-color:#7fe3e8">Explorar a constelação</a>
+    </div>
+    <div style="display:flex;gap:34px;margin-top:64px;font:400 11px/1.6 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(237,234,246,.4)">
+      <span>1 APP PUBLICADO</span><span>3 EM CONSTRUÇÃO</span><span>100% DADOS LOCAIS</span>
+    </div>
+  </div>
+
+  <div data-par="16" style="position:relative;aspect-ratio:1;max-width:660px;justify-self:center;width:100%;transition:transform .8s cubic-bezier(.2,.7,.2,1)">
+    <div style="position:absolute;inset:0;border:1px solid rgba(182,156,240,.14);border-radius:50%"></div>
+    <div style="position:absolute;inset:13%;border:1px solid rgba(182,156,240,.1);border-radius:50%;animation:rotslow 140s linear infinite"></div>
+    <div style="position:absolute;inset:28%;border:1px dashed rgba(127,227,232,.13);border-radius:50%;animation:rotrev 100s linear infinite"></div>
+    <img src="assets/logo-mark.png" alt="" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44%;filter:drop-shadow(0 0 52px rgba(150,110,245,.5))">
+    <div style="position:absolute;left:4%;top:13%;display:flex;align-items:center;gap:10px">
+      <span style="width:8px;height:8px;border-radius:50%;background:#EDEAF6;box-shadow:0 0 14px #b69cf0;animation:twinkle 4s ease-in-out infinite"></span>
+      <span style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(237,234,246,.62)">VÍNCULO TUTORIA</span>
+    </div>
+    <div style="position:absolute;right:0;top:47%;display:flex;align-items:center;gap:10px">
+      <span style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(237,234,246,.44)">PLANO DE AULA IA</span>
+      <span style="width:7px;height:7px;border-radius:50%;background:#b69cf0;box-shadow:0 0 12px #b69cf0;animation:twinkle 5.5s ease-in-out infinite"></span>
+    </div>
+    <div style="position:absolute;left:10%;bottom:11%;display:flex;align-items:center;gap:10px">
+      <span style="width:7px;height:7px;border-radius:50%;background:#7fe3e8;box-shadow:0 0 12px #7fe3e8;animation:twinkle 6.5s ease-in-out infinite"></span>
+      <span style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(237,234,246,.44)">CONSTELAÇÃO</span>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:46px;bottom:44px;display:flex;align-items:center;gap:14px">
+    <span style="width:52px;height:1px;background:linear-gradient(90deg,rgba(237,234,246,.4),transparent)"></span>
+    <span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.26em;color:rgba(237,234,246,.32)">ROLE PARA EXPLORAR</span>
+  </div>
+</header>
+
+<section id="produtos" style="padding:110px 46px 40px">
+  <div data-rise style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <h2 style="margin:0;font:300 52px/1.08 'Cormorant Garamond',serif;color:#EDEAF6">Produtos em destaque</h2>
+    <span style="font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(237,234,246,.34)">01 — CATÁLOGO</span>
+  </div>
+  <div data-rise style="position:relative;height:44px;margin-top:38px">
+    <div style="position:absolute;left:8%;right:8%;top:5px;height:1px;background:linear-gradient(90deg,transparent,rgba(127,227,232,.5) 12%,rgba(182,156,240,.4) 55%,rgba(255,255,255,.08))"></div>
+    <div style="position:absolute;inset:0;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:22px">
+      <div style="display:flex;justify-content:center"><span style="width:11px;height:11px;border-radius:50%;border:1px solid #7fe3e8;background:#050409;position:relative"><span style="position:absolute;inset:3px;border-radius:50%;background:#7fe3e8;box-shadow:0 0 10px #7fe3e8"></span></span></div>
+      <div style="display:flex;justify-content:center"><span style="width:11px;height:11px;border-radius:50%;border:1px solid rgba(182,156,240,.55);background:#050409;position:relative"><span style="position:absolute;inset:3.5px;border-radius:50%;background:#b69cf0;animation:twinkle 5s ease-in-out infinite"></span></span></div>
+      <div style="display:flex;justify-content:center"><span style="width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:#050409;position:relative"><span style="position:absolute;inset:4px;border-radius:50%;background:rgba(237,234,246,.5);animation:twinkle 7s ease-in-out infinite"></span></span></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:22px">
+    <article data-rise style="position:relative;padding:36px;border:1px solid rgba(182,156,240,.22);border-radius:10px;background:linear-gradient(160deg,rgba(122,80,215,.15),rgba(255,255,255,.014));overflow:hidden;transition:border-color .4s,transform .4s" style-hover="border-color:rgba(127,227,232,.45);transform:translateY(-4px)">
+      <div style="position:absolute;inset:0;background:radial-gradient(70% 60% at 92% 6%,rgba(127,227,232,.11),transparent 70%);pointer-events:none"></div>
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px">
+        <span style="display:flex;align-items:center;gap:9px;font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#7fe3e8"><span style="width:6px;height:6px;border-radius:50%;background:#7fe3e8;animation:blinkdot 2.6s ease-in-out infinite"></span>DISPONÍVEL · v1.4.2</span>
+        <span style="font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.4)">WINDOWS 10/11</span>
+      </div>
+      <h3 style="position:relative;margin:30px 0 0;font:400 40px/1.1 'Cormorant Garamond',serif;color:#F3F0FA">Vínculo Tutoria</h3>
+      <p style="position:relative;margin:14px 0 0;max-width:520px;font:300 15.5px/1.68 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.6)">Registro de atendimentos de tutoria para professores: sessões, evolução do aluno e relatórios prontos para a coordenação. Funciona offline, tudo salvo na sua máquina.</p>
+      <div style="display:flex;gap:8px;margin-top:24px;flex-wrap:wrap">
+        <span style="padding:6px 12px;border:1px solid rgba(255,255,255,.14);border-radius:999px;font:400 11px/1.4 'IBM Plex Mono',monospace;color:rgba(237,234,246,.6)">Offline-first</span>
+        <span style="padding:6px 12px;border:1px solid rgba(255,255,255,.14);border-radius:999px;font:400 11px/1.4 'IBM Plex Mono',monospace;color:rgba(237,234,246,.6)">Relatórios PDF</span>
+        <span style="padding:6px 12px;border:1px solid rgba(255,255,255,.14);border-radius:999px;font:400 11px/1.4 'IBM Plex Mono',monospace;color:rgba(237,234,246,.6)">LGPD</span>
+      </div>
+      <div style="position:relative;display:flex;gap:12px;margin-top:34px">
+        <a href="#download" style="padding:13px 22px;background:#EDEAF6;color:#0a0910;border-radius:999px;font:500 13px/1 'IBM Plex Sans',sans-serif" style-hover="background:#fff">Download</a>
+        <a href="#app" style="padding:13px 22px;border:1px solid rgba(237,234,246,.2);color:rgba(237,234,246,.82);border-radius:999px;font:400 13px/1 'IBM Plex Sans',sans-serif" style-hover="border-color:rgba(127,227,232,.55);color:#fff">Ver a página do app</a>
+      </div>
+    </article>
+    <article data-rise data-soon style="position:relative;padding:32px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.014);display:flex;flex-direction:column;overflow:hidden;transition:border-color .4s,transform .4s" style-hover="border-color:rgba(182,156,240,.34);transform:translateY(-4px)">
+      <div data-nebula style="position:absolute;inset:-30%;opacity:.62;pointer-events:none;background:radial-gradient(42% 38% at 32% 28%,rgba(120,66,220,.55),transparent 70%),radial-gradient(40% 34% at 70% 62%,rgba(30,72,180,.45),transparent 72%),radial-gradient(50% 44% at 52% 48%,rgba(10,7,24,.7),transparent 76%);filter:blur(22px)"></div>
+      <div data-soon-label style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(6,5,13,.5);backdrop-filter:blur(3px);pointer-events:none;z-index:2">
+        <span style="width:9px;height:9px;border-radius:50%;background:#7fe3e8;box-shadow:0 0 16px #7fe3e8"></span>
+        <span style="font:400 13px/1 'IBM Plex Mono',monospace;letter-spacing:.36em;color:#EDEAF6">EM BREVE</span>
+        <span style="font:300 12.5px/1.5 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.6)">Entrar na lista de espera</span>
+      </div>
+      <span style="position:relative;font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(182,156,240,.88)">EM DESENVOLVIMENTO</span>
+      <h3 style="position:relative;margin:24px 0 0;font:400 28px/1.16 'Cormorant Garamond',serif;color:#EDEAF6">Plano de Aula IA</h3>
+      <p style="position:relative;margin:12px 0 0;font:300 14.5px/1.66 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.55)">Rascunho de plano alinhado à BNCC em minutos, com o professor sempre no controle da revisão final.</p>
+      <div style="position:relative;margin-top:auto;padding-top:28px;display:flex;justify-content:space-between;font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.35)"><span>PREVISTO</span><span>2026 Q4</span></div>
+    </article>
+    <article data-rise data-soon style="position:relative;padding:32px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.014);display:flex;flex-direction:column;overflow:hidden;transition:border-color .4s,transform .4s" style-hover="border-color:rgba(182,156,240,.34);transform:translateY(-4px)">
+      <div data-nebula style="position:absolute;inset:-30%;opacity:.55;pointer-events:none;background:radial-gradient(40% 36% at 66% 30%,rgba(30,72,180,.5),transparent 70%),radial-gradient(44% 38% at 30% 66%,rgba(120,66,220,.42),transparent 72%),radial-gradient(50% 44% at 50% 50%,rgba(10,7,24,.7),transparent 76%);filter:blur(22px)"></div>
+      <div data-soon-label style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(6,5,13,.5);backdrop-filter:blur(3px);pointer-events:none;z-index:2">
+        <span style="width:9px;height:9px;border-radius:50%;background:#7fe3e8;box-shadow:0 0 16px #7fe3e8"></span>
+        <span style="font:400 13px/1 'IBM Plex Mono',monospace;letter-spacing:.36em;color:#EDEAF6">EM BREVE</span>
+        <span style="font:300 12.5px/1.5 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.6)">Entrar na lista de espera</span>
+      </div>
+      <span style="position:relative;font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(182,156,240,.88)">PESQUISA</span>
+      <h3 style="position:relative;margin:24px 0 0;font:400 28px/1.16 'Cormorant Garamond',serif;color:#EDEAF6">Constelação</h3>
+      <p style="position:relative;margin:12px 0 0;font:300 14.5px/1.66 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.55)">Mapa visual de progresso da turma: cada aluno uma estrela, cada vínculo uma linha luminosa.</p>
+      <div style="position:relative;margin-top:auto;padding-top:28px;display:flex;justify-content:space-between;font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.35)"><span>EXPLORATÓRIO</span><span>SEM DATA</span></div>
+    </article>
+  </div>
+</section>
+
+<section id="porque" style="padding:110px 46px 0">
+  <div data-rise style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <h2 style="margin:0;font:300 52px/1.08 'Cormorant Garamond',serif">Por que a Codes by Erax</h2>
+    <span style="font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(237,234,246,.34)">02 — PRINCÍPIOS</span>
+  </div>
+  <div data-rise style="display:grid;grid-template-columns:repeat(4,1fr);margin-top:52px;border-top:1px solid rgba(255,255,255,.1)">
+    <div style="padding:34px 30px 30px 0;border-right:1px solid rgba(255,255,255,.07)">
+      <div style="font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(127,227,232,.85)">01</div>
+      <h3 style="margin:20px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:#EDEAF6">Feito por quem dá aula</h3>
+      <p style="margin:12px 0 0;font:300 14.5px/1.68 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.55)">Cada tela nasceu de uma rotina real de tutoria, não de um briefing genérico.</p>
+    </div>
+    <div style="padding:34px 30px;border-right:1px solid rgba(255,255,255,.07)">
+      <div style="font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(127,227,232,.85)">02</div>
+      <h3 style="margin:20px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:#EDEAF6">Seus dados ficam com você</h3>
+      <p style="margin:12px 0 0;font:300 14.5px/1.68 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.55)">Armazenamento local, sem conta obrigatória, alinhado à LGPD.</p>
+    </div>
+    <div style="padding:34px 30px;border-right:1px solid rgba(255,255,255,.07)">
+      <div style="font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(127,227,232,.85)">03</div>
+      <h3 style="margin:20px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:#EDEAF6">IA como assistente</h3>
+      <p style="margin:12px 0 0;font:300 14.5px/1.68 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.55)">A IA sugere, o professor decide. Nunca o contrário.</p>
+    </div>
+    <div style="padding:34px 0 30px 30px">
+      <div style="font:400 11px/1 'IBM Plex Mono',monospace;color:rgba(127,227,232,.85)">04</div>
+      <h3 style="margin:20px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:#EDEAF6">Atualizações abertas</h3>
+      <p style="margin:12px 0 0;font:300 14.5px/1.68 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.55)">Changelog público, versões documentadas, nada de mudança silenciosa.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 46px 0">
+  <div data-rise style="display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center;padding:40px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)">
+    <span style="font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(237,234,246,.34)">03 — CONSTRUÍDO COM</span>
+    <div style="display:flex;flex-wrap:wrap;gap:14px 34px;font:400 14px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.55)">
+      <span>TypeScript</span><span>React</span><span>Next.js</span><span>.NET / WinUI</span><span>SQLite</span><span>Tailwind</span><span>Framer Motion</span><span>Python</span>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap" style="padding:110px 46px 0">
+  <div data-rise style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap">
+    <h2 style="margin:0;font:300 52px/1.08 'Cormorant Garamond',serif">Roadmap público</h2>
+    <span style="font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(237,234,246,.32)">04 — LINHA DO TEMPO</span>
+  </div>
+  <div data-rise style="position:relative;margin-top:56px">
+    <div style="position:absolute;left:0;right:0;top:8px;height:1px;background:linear-gradient(90deg,rgba(127,227,232,.5),rgba(182,156,240,.35),rgba(255,255,255,.06))"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px">
+      <div>
+        <span style="display:block;width:17px;height:17px;border-radius:50%;border:1px solid #7fe3e8;background:#050409;position:relative"><span style="position:absolute;inset:5px;border-radius:50%;background:#7fe3e8"></span></span>
+        <div style="margin-top:24px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#7fe3e8">ENTREGUE · 2026 Q2</div>
+        <h3 style="margin:14px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:#EDEAF6">Vínculo Tutoria 1.4</h3>
+        <p style="margin:10px 0 0;font:300 14.5px/1.66 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.52)">Relatórios em PDF e backup local automático.</p>
+      </div>
+      <div>
+        <span style="display:block;width:17px;height:17px;border-radius:50%;border:1px solid rgba(182,156,240,.8);background:#050409;position:relative"><span style="position:absolute;inset:5px;border-radius:50%;background:#b69cf0;animation:blinkdot 2.8s ease-in-out infinite"></span></span>
+        <div style="margin-top:24px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#b69cf0">EM CURSO · 2026 Q3</div>
+        <h3 style="margin:14px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:#EDEAF6">Microsoft Store</h3>
+        <p style="margin:10px 0 0;font:300 14.5px/1.66 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.52)">Distribuição oficial e atualização automática.</p>
+      </div>
+      <div>
+        <span style="display:block;width:17px;height:17px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:#050409"></span>
+        <div style="margin-top:24px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(237,234,246,.4)">PREVISTO · 2026 Q4</div>
+        <h3 style="margin:14px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:rgba(237,234,246,.86)">Plano de Aula IA</h3>
+        <p style="margin:10px 0 0;font:300 14.5px/1.66 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.45)">Beta fechada com professores parceiros.</p>
+      </div>
+      <div>
+        <span style="display:block;width:17px;height:17px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:#050409"></span>
+        <div style="margin-top:24px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(237,234,246,.3)">EXPLORATÓRIO</div>
+        <h3 style="margin:14px 0 0;font:400 26px/1.22 'Cormorant Garamond',serif;color:rgba(237,234,246,.72)">Constelação</h3>
+        <p style="margin:10px 0 0;font:300 14.5px/1.66 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.4)">Visualização de progresso por turma.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="app" data-par-scope style="position:relative;margin:120px 0 0;padding:96px 46px;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden">
+  <div data-par="14" style="position:absolute;inset:-40px;background:radial-gradient(30% 40% at 78% 30%,rgba(120,66,220,.22),transparent 70%);filter:blur(14px);pointer-events:none;transition:transform .9s cubic-bezier(.2,.7,.2,1)"></div>
+  <div style="position:relative;display:grid;grid-template-columns:1fr 1.06fr;gap:56px;align-items:center">
+    <div data-rise>
+      <span style="display:flex;align-items:center;gap:10px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.26em;color:rgba(127,227,232,.8)"><span style="width:6px;height:6px;border-radius:50%;background:#7fe3e8;animation:blinkdot 2.6s ease-in-out infinite"></span>APLICATIVO EM DESTAQUE · WINDOWS</span>
+      <h2 style="margin:26px 0 0;font:300 62px/1.06 'Cormorant Garamond',serif;letter-spacing:-.015em">Toda tutoria registrada.<br>Nenhuma perdida.</h2>
+      <p style="margin:24px 0 0;max-width:520px;font:300 17px/1.76 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.6);text-wrap:pretty">O <strong style="font-weight:500;color:#EDEAF6">Vínculo Tutoria</strong> transforma o caderno de anotações do professor em histórico organizado, com relatórios que a coordenação entende de primeira.</p>
+      <div style="display:grid;gap:16px;margin-top:34px;max-width:520px">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline"><span style="font:400 11px/1.5 'IBM Plex Mono',monospace;color:#7fe3e8">01</span><span style="font:300 15.5px/1.6 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.72)">Sessões de tutoria com objetivo, evolução e próximos passos</span></div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline"><span style="font:400 11px/1.5 'IBM Plex Mono',monospace;color:#7fe3e8">02</span><span style="font:300 15.5px/1.6 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.72)">Relatório por aluno ou por turma, exportável em PDF</span></div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline"><span style="font:400 11px/1.5 'IBM Plex Mono',monospace;color:#7fe3e8">03</span><span style="font:300 15.5px/1.6 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.72)">Backup local automático — sem nuvem, sem conta</span></div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:38px;flex-wrap:wrap">
+        <a href="#download" style="padding:15px 26px;background:linear-gradient(120deg,#8b5cf0,#6d3fd6);color:#fff;border-radius:999px;font:500 13.5px/1 'IBM Plex Sans',sans-serif;box-shadow:0 12px 42px -16px rgba(139,92,240,.9)" style-hover="filter:brightness(1.12)">Baixar para Windows</a>
+        <a href="#suporte" style="padding:15px 24px;border:1px solid rgba(255,255,255,.16);color:rgba(237,234,246,.82);border-radius:999px;font:400 13.5px/1 'IBM Plex Sans',sans-serif" style-hover="border-color:rgba(127,227,232,.55);color:#fff">Ver demonstração</a>
+      </div>
+    </div>
+    <div data-rise style="position:relative">
+      <div style="position:absolute;inset:-24px;border-radius:16px;background:radial-gradient(60% 60% at 60% 16%,rgba(139,92,240,.24),transparent 70%);filter:blur(14px)"></div>
+      <div style="position:relative;border:1px solid rgba(255,255,255,.12);border-radius:10px;overflow:hidden;background:rgba(11,9,20,.86);backdrop-filter:blur(10px);box-shadow:0 44px 100px -44px #000">
+        <div style="display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.028)">
+          <span style="width:10px;height:10px;border-radius:3px;background:rgba(237,234,246,.28)"></span>
+          <span style="width:10px;height:10px;border-radius:3px;background:rgba(237,234,246,.18)"></span>
+          <span style="width:10px;height:10px;border-radius:3px;background:rgba(237,234,246,.18)"></span>
+          <span style="margin-left:8px;font:400 11.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.5)">Vínculo Tutoria — 3º ano B</span>
+        </div>
+        <div style="display:grid;grid-template-columns:174px 1fr;min-height:430px">
+          <div style="border-right:1px solid rgba(255,255,255,.07);padding:18px 13px;display:flex;flex-direction:column;gap:5px">
+            <div style="padding:10px 12px;border-radius:5px;background:rgba(139,92,240,.18);font:500 12.5px/1 'IBM Plex Sans',sans-serif">Atendimentos</div>
+            <div style="padding:10px 12px;color:rgba(237,234,246,.55);font:400 12.5px/1 'IBM Plex Sans',sans-serif">Alunos</div>
+            <div style="padding:10px 12px;color:rgba(237,234,246,.55);font:400 12.5px/1 'IBM Plex Sans',sans-serif">Turmas</div>
+            <div style="padding:10px 12px;color:rgba(237,234,246,.55);font:400 12.5px/1 'IBM Plex Sans',sans-serif">Relatórios</div>
+            <div style="padding:10px 12px;color:rgba(237,234,246,.55);font:400 12.5px/1 'IBM Plex Sans',sans-serif">Configurações</div>
+            <div style="margin-top:auto;padding:12px;border:1px dashed rgba(127,227,232,.28);border-radius:6px;font:400 10px/1.5 'IBM Plex Mono',monospace;color:rgba(127,227,232,.72)">SINCRONIA<br>LOCAL OK</div>
+          </div>
+          <div style="padding:20px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font:400 13.5px/1 'IBM Plex Sans',sans-serif">Julho · 18 atendimentos</span>
+              <span style="padding:6px 11px;border:1px solid rgba(255,255,255,.14);border-radius:4px;font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.55)">+ NOVO</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:16px">
+              <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(255,255,255,.024)">
+                <div><div style="font:500 13px/1.2 'IBM Plex Sans',sans-serif">Ana Beatriz M.</div><div style="margin-top:6px;font:300 12px/1.4 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.5)">Reforço · Frações equivalentes</div></div>
+                <div style="text-align:right"><div style="font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(127,227,232,.85)">EVOLUIU</div><div style="margin-top:6px;font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.35)">22 JUL</div></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid rgba(255,255,255,.075);border-radius:6px">
+                <div><div style="font:500 13px/1.2 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.92)">Caio Ferreira</div><div style="margin-top:6px;font:300 12px/1.4 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.45)">Leitura · Interpretação de texto</div></div>
+                <div style="text-align:right"><div style="font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(182,156,240,.9)">EM CURSO</div><div style="margin-top:6px;font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.35)">21 JUL</div></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid rgba(255,255,255,.075);border-radius:6px">
+                <div><div style="font:500 13px/1.2 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.92)">Helena Duarte</div><div style="margin-top:6px;font:300 12px/1.4 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.45)">Matemática · Tabuada</div></div>
+                <div style="text-align:right"><div style="font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.5)">AGENDADO</div><div style="margin-top:6px;font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.35)">29 JUL</div></div>
+              </div>
+            </div>
+            <div style="margin-top:18px;padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:6px;background:rgba(255,255,255,.018)">
+              <div style="display:flex;justify-content:space-between;font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(237,234,246,.45)"><span>PROGRESSO DA TURMA</span><span>68%</span></div>
+              <div style="display:flex;align-items:flex-end;gap:6px;height:72px;margin-top:14px">
+                <div style="flex:1;height:34%;background:linear-gradient(180deg,rgba(139,92,240,.85),rgba(139,92,240,.25));border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:52%;background:linear-gradient(180deg,rgba(139,92,240,.85),rgba(139,92,240,.25));border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:44%;background:linear-gradient(180deg,rgba(139,92,240,.85),rgba(139,92,240,.25));border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:70%;background:linear-gradient(180deg,rgba(139,92,240,.85),rgba(139,92,240,.25));border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:62%;background:linear-gradient(180deg,rgba(139,92,240,.85),rgba(139,92,240,.25));border-radius:2px 2px 0 0"></div>
+                <div style="flex:1;height:88%;background:linear-gradient(180deg,#7fe3e8,rgba(127,227,232,.2));border-radius:2px 2px 0 0"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="suporte" style="padding:110px 46px 0">
+  <div data-rise style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <h2 style="margin:0;font:300 52px/1.08 'Cormorant Garamond',serif">Quem já usa</h2>
+    <span style="font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(237,234,246,.34)">05 — DEPOIMENTOS</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px">
+    <blockquote data-rise style="margin:0;padding:34px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.014)">
+      <p style="margin:0;font:300 20px/1.62 'Cormorant Garamond',serif;font-size:22px;color:rgba(237,234,246,.86)">“Antes eu perdia meia hora por semana reescrevendo o que já tinha anotado. Agora o relatório sai pronto.”</p>
+      <footer style="margin-top:26px;font:400 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(237,234,246,.42)">DEPOIMENTO PENDENTE<br>PROFESSORA · ENSINO FUNDAMENTAL</footer>
+    </blockquote>
+    <blockquote data-rise style="margin:0;padding:34px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.014)">
+      <p style="margin:0;font:300 22px/1.62 'Cormorant Garamond',serif;color:rgba(237,234,246,.86)">“A coordenação passou a receber dado real, não impressão. Mudou a conversa das reuniões.”</p>
+      <footer style="margin-top:26px;font:400 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(237,234,246,.42)">DEPOIMENTO PENDENTE<br>COORDENAÇÃO PEDAGÓGICA</footer>
+    </blockquote>
+    <blockquote data-rise style="margin:0;padding:34px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.014)">
+      <p style="margin:0;font:300 22px/1.62 'Cormorant Garamond',serif;color:rgba(237,234,246,.86)">“Instalei em cinco minutos e não precisei criar conta nenhuma. Isso importa muito para nós.”</p>
+      <footer style="margin-top:26px;font:400 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(237,234,246,.42)">DEPOIMENTO PENDENTE<br>TUTOR · REDE PRIVADA</footer>
+    </blockquote>
+  </div>
+</section>
+
+<section id="download" data-par-scope style="position:relative;margin:120px 46px 0;padding:110px 46px;border:1px solid rgba(182,156,240,.2);border-radius:16px;background:linear-gradient(160deg,rgba(122,80,215,.16),rgba(255,255,255,.012));overflow:hidden;text-align:center">
+  <div data-par="18" style="position:absolute;inset:-40px;background:radial-gradient(30% 40% at 50% 30%,rgba(120,66,220,.26),transparent 70%);filter:blur(16px);pointer-events:none;transition:transform .9s cubic-bezier(.2,.7,.2,1)"></div>
+  <div data-rise style="position:relative;display:flex;flex-direction:column;align-items:center">
+    <img src="assets/logo-mark.png" alt="" style="width:96px;filter:drop-shadow(0 0 34px rgba(146,104,240,.5));animation:floaty 9s ease-in-out infinite">
+    <h2 style="margin:34px 0 0;font:300 60px/1.08 'Cormorant Garamond',serif;max-width:840px">Comece pelo primeiro ponto da constelação.</h2>
+    <p style="margin:22px 0 0;max-width:560px;font:300 17px/1.74 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.6)">Gratuito para professores. Sem conta, sem nuvem, sem letra miúda.</p>
+    <div style="display:flex;gap:14px;margin-top:38px;flex-wrap:wrap;justify-content:center">
+      <a href="#download" style="display:flex;align-items:center;gap:12px;padding:16px 30px;border-radius:999px;background:#EDEAF6;color:#0a0910;font:500 14px/1 'IBM Plex Sans',sans-serif" style-hover="background:#fff;box-shadow:0 0 42px rgba(182,156,240,.45)">Download direto <span style="font:400 11px/1 'IBM Plex Mono',monospace;opacity:.55">v1.4.2 · 24 MB</span></a>
+      <a href="#download" style="padding:16px 28px;border-radius:999px;border:1px solid rgba(237,234,246,.22);color:rgba(237,234,246,.85);font:400 14px/1 'IBM Plex Sans',sans-serif" style-hover="border-color:rgba(127,227,232,.55);color:#fff">Microsoft Store</a>
+    </div>
+    <p style="margin:26px 0 0;font:400 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(237,234,246,.34)">WINDOWS 10 / 11 · 64 BITS · CHECKSUM SHA-256 DISPONÍVEL</p>
+  </div>
+</section>
+
+<footer style="margin-top:120px;padding:70px 46px 44px;border-top:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden">
+  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px">
+    <div>
+      <img src="assets/logo-word.png" alt="Codes by Erax" style="height:34px;width:auto;opacity:.9">
+      <p style="margin:20px 0 0;max-width:320px;font:300 14px/1.7 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.5)">Software, inteligência artificial e educação. Feito com atenção em cada detalhe.</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:24px;font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(237,234,246,.42)">
+        <span style="width:7px;height:7px;border-radius:50%;background:#7fe3e8;box-shadow:0 0 10px #7fe3e8"></span>TODOS OS SERVIÇOS OPERACIONAIS
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(237,234,246,.35)">PRODUTOS</div>
+      <a href="#app" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Vínculo Tutoria</a>
+      <a href="#produtos" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Futuros aplicativos</a>
+      <a href="#download" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Downloads</a>
+      <a href="#roadmap" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Changelog</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(237,234,246,.35)">EMPRESA</div>
+      <a href="#porque" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Sobre</a>
+      <a href="#suporte" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Blog / Novidades</a>
+      <a href="#suporte" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Suporte</a>
+      <a href="#suporte" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Contato</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(237,234,246,.35)">LEGAL</div>
+      <a href="#" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Privacidade (LGPD)</a>
+      <a href="#" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Termos de uso</a>
+      <a href="#" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Licenças</a>
+      <a href="#" style="font:300 14px/1 'IBM Plex Sans',sans-serif;color:rgba(237,234,246,.66)" style-hover="color:#fff">Status</a>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:52px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(237,234,246,.3)">
+    <span>© 2026 CODES BY ERAX</span>
+    <span style="display:flex;align-items:center;gap:9px;opacity:.55">
+      <span style="width:5px;height:5px;border-radius:50%;background:#EDEAF6;animation:twinkle 5s ease-in-out infinite"></span>
+      <span style="width:4px;height:4px;border-radius:50%;background:#b69cf0;animation:twinkle 7s ease-in-out infinite"></span>
+      <span style="width:5px;height:5px;border-radius:50%;background:#7fe3e8;animation:twinkle 6s ease-in-out infinite"></span>
+      O GATO ESTÁ OBSERVANDO
+    </span>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}"></script>
+</body>
+</html>
