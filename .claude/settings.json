@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(sed -i 's/}, null, 2\\)\\)\\);/}\\)\\)\\);/' scratch/css.mjs)",
+      "Bash(node scratch/css.mjs)",
+      "Bash(pkill -f \"next start\")",
+      "Bash(npx next *)",
+      "Bash(node scratch/grid.mjs)",
+      "Bash(node scratch/scroll.mjs)",
+      "Bash(node scratch/m-dbg.mjs)",
+      "Bash(taskkill //F //IM node.exe)"
+    ]
+  }
+}

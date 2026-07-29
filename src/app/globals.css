@@ -1,0 +1,349 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — "Carta celeste"
+   Mirrors the token table in docs/handoff.md. Every colour used anywhere in the
+   site should resolve to one of these; component files never hard-code hexes.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-space-black: #040309;
+  --color-space-black-2: #050409;
+  --color-ink-800: #06050d;
+  --color-nebula-deep: #0a0718;
+  --color-nebula: #160f2c;
+
+  --color-violet-500: #8b5cf0;
+  --color-violet-600: #6d3fd6;
+  --color-violet-core: #7842dc;
+  --color-violet-300: #b69cf0;
+  --color-violet-200: #c3adf3;
+  --color-blue-cosmic: #1e48b4;
+  --color-cyan-400: #7fe3e8;
+
+  --color-white-soft: #edeaf6;
+  --color-white-hi: #f3f0fa;
+  --color-white-hi-2: #f5f2fc;
+  --color-ink-inverse: #0a0910;
+
+  /*
+   * Breakpoint extra do handoff: o protótipo quebra em 1180px.
+   *
+   * Declarado em rem (73.75rem = 1180px) de propósito. O Tailwind ordena os
+   * breakpoints para montar a cascata e não compara px com rem: um valor em px
+   * é emitido ANTES de sm/md/lg, e como a especificidade é a mesma, qualquer
+   * `md:` sobrescreveria o `wide:` acima de 1180px. Em rem, ele cai no lugar
+   * certo — entre lg (64rem) e xl (80rem).
+   */
+  --breakpoint-wide: 73.75rem;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-plex-sans), "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Section rhythm + gutters from the handoff spacing scale. */
+  --spacing-gutter: 20px;
+  --spacing-gutter-lg: 46px;
+
+  --radius-card: 10px;
+  --radius-panel: 16px;
+
+  --shadow-window: 0 44px 100px -44px #000;
+  --shadow-gradient-btn: 0 12px 42px -16px rgba(139, 92, 240, 0.9);
+  --shadow-bloom: 0 0 42px rgba(182, 156, 240, 0.45);
+
+  --ease-celeste: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Keeps anchored sections clear of the sticky navbar. */
+    scroll-padding-top: 92px;
+    background-color: var(--color-space-black);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-space-black);
+    color: var(--color-white-soft);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    /* Guards against any child overflowing at 360px. */
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(139, 92, 240, 0.4);
+  }
+
+  /* A single, always-perceivable focus treatment (WCAG 2.4.7 / 2.4.11). */
+  :focus-visible {
+    outline: 2px solid var(--color-cyan-400);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* Locks page scroll while the intro overlay or a modal owns the viewport. */
+  html[data-scroll-locked],
+  body[data-scroll-locked] {
+    overflow: hidden;
+  }
+
+  /*
+   * A intro é oculta por padrão e só aparece quando o script bloqueante de
+   * IntroOverlay decide que ela deve rodar. Isso resolve dois casos de uma vez:
+   * visitante recorrente (nada pisca) e JavaScript desligado (a sobreposição
+   * nunca aparece e o site fica utilizável).
+   */
+  #intro-overlay {
+    display: none;
+  }
+
+  html[data-intro="play"] #intro-overlay {
+    display: flex;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Continuous ambient motion.
+   Framer Motion handles entrances/parallax; these looping decorations stay in
+   CSS so they cost no JS. Every one of them is disabled under reduced motion.
+   --------------------------------------------------------------------------- */
+@keyframes ce-rotslow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ce-rotrev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes ce-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ce-blinkdot {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ce-floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes ce-intro-mark {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+@keyframes ce-intro-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+@keyframes ce-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ce-intro-word {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.7em;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 0.34em;
+  }
+}
+
+@utility anim-rotslow {
+  animation: ce-rotslow 140s linear infinite;
+}
+@utility anim-rotrev {
+  animation: ce-rotrev 100s linear infinite;
+}
+@utility anim-twinkle {
+  animation: ce-twinkle var(--twinkle-duration, 5s) ease-in-out infinite;
+}
+@utility anim-blinkdot {
+  animation: ce-blinkdot var(--blink-duration, 2.6s) ease-in-out infinite;
+}
+@utility anim-floaty {
+  animation: ce-floaty 9s ease-in-out infinite;
+}
+@utility anim-intro-mark {
+  animation: ce-intro-mark 2.6s var(--ease-celeste) both;
+}
+@utility anim-intro-ring {
+  animation: ce-intro-ring 2.6s var(--ease-celeste) var(--ring-delay, 0.3s) forwards;
+}
+@utility anim-intro-word {
+  animation: ce-intro-word 1.6s var(--ease-celeste) 0.9s both;
+}
+
+/* ---------------------------------------------------------------------------
+   Repeated type + surface recipes.
+   These are the patterns that appear a dozen times each; keeping them here
+   stops every component from repeating the same six arbitrary values.
+   --------------------------------------------------------------------------- */
+@layer components {
+  /* Mono micro-label. Alpha floor is .55 — the handoff's .3–.35 fails AA. */
+  .type-label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(237 234 246 / 0.62);
+  }
+
+  .type-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 11.5px;
+    line-height: 1.4;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgb(127 227 232 / 0.9);
+  }
+
+  .type-display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--color-white-hi);
+  }
+
+  .type-body {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: rgb(237 234 246 / 0.66);
+    text-wrap: pretty;
+  }
+
+  .hairline {
+    border-color: rgb(255 255 255 / 0.08);
+  }
+
+  /* Nebula wash used behind the veiled product cards + CTA panels. */
+  .nebula-blur {
+    filter: blur(22px);
+  }
+
+  /*
+   * Entrada do hero — em CSS, não em Framer Motion, de propósito.
+   *
+   * O H1 é o elemento de LCP da página. Se a opacidade inicial viesse de um
+   * componente `motion`, o HTML do servidor chegaria invisível e o texto só
+   * apareceria depois da hidratação — atrasando o LCP e deixando o hero vazio
+   * onde o JavaScript falha ou demora. Com keyframes, a animação começa na
+   * primeira pintura e o conteúdo existe mesmo sem JavaScript.
+   *
+   * Os atrasos longos do handoff (2.5s / 2.75s / 3.2s) só valem quando a intro
+   * está de fato rodando; o script bloqueante já resolveu isso em
+   * `[data-intro]` antes da pintura, então basta o seletor.
+   */
+  .hero-enter {
+    animation: ce-hero-in var(--hero-duration, 0.9s) var(--ease-celeste)
+      var(--hero-delay, 0.1s) both;
+  }
+
+  .hero-enter-dial {
+    --hero-delay: 0.25s;
+  }
+
+  .hero-enter-hint {
+    --hero-delay: 0.45s;
+  }
+
+  html[data-intro="play"] .hero-enter {
+    --hero-duration: 1.2s;
+    --hero-delay: 2.5s;
+  }
+
+  html[data-intro="play"] .hero-enter-dial {
+    --hero-duration: 1.3s;
+    --hero-delay: 2.75s;
+  }
+
+  html[data-intro="play"] .hero-enter-hint {
+    --hero-duration: 1s;
+    --hero-delay: 3.2s;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — hard stop.
+   Continuous rotation/twinkle/float are removed entirely (not just shortened),
+   parallax transforms are neutralised, and only opacity fades survive.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .anim-rotslow,
+  .anim-rotrev,
+  .anim-twinkle,
+  .anim-blinkdot,
+  .anim-floaty {
+    animation: none !important;
+    opacity: 1;
+    transform: none !important;
+  }
+}
