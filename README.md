@@ -64,7 +64,7 @@ interface **diz isso ao visitante** em vez de fingir que funciona.
 
 | Variável | Obrigatória | Efeito se ausente |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | recomendada | Usa `https://codesbyerax.com` em canonical, sitemap, robots e OG |
+| `NEXT_PUBLIC_SITE_URL` | recomendada | Usa `https://codesbyerax.com.br` em canonical, sitemap, robots e OG |
 | `NEXT_PUBLIC_ZOHO_VERIFICATION` | não | Já embutida com o valor atual do domínio |
 
 ### E-mail — servidor, nunca exposto ao navegador

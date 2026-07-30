@@ -14,7 +14,7 @@ export const siteConfig = {
     "Estúdio de software, inteligência artificial e educação. Criamos o Vínculo Tutoria e outras ferramentas para quem ensina — offline-first, sem conta obrigatória e alinhadas à LGPD.",
   shortDescription:
     "Software, inteligência artificial e educação. Feito com atenção em cada detalhe.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://codesbyerax.com").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://codesbyerax.com.br").replace(/\/$/, ""),
   locale: "pt-BR",
   copyrightYear: 2026,
   /** Exibido nas páginas de contato/suporte. Vazio = bloco oculto. */
