@@ -406,11 +406,21 @@
   animation: ce-twinkle 10s ease-in-out infinite;
 }
 
-.constellation-art {
-  position: relative;
-  width: min(100%, 610px);
-  filter: drop-shadow(0 0 26px rgba(160,120,255,.52));
-  transform: scale(1.22);
+.constellation-image {
+  position: absolute;
+  width: 188.7%;
+  max-width: none;
+  height: auto;
+  left: -49.1%;
+  top: -19.8%;
+  mix-blend-mode: screen;
+  filter: invert(1) hue-rotate(258deg) saturate(1.45) brightness(1.4) drop-shadow(0 0 34px rgba(160,120,255,.4));
+}
+
+.constellation-glow {
+  opacity: .85;
+  filter: invert(1) hue-rotate(258deg) saturate(2.2) brightness(1.9) blur(11px);
+  animation: ce-twinkle 9s ease-in-out infinite;
 }
 
 .product-window {
@@ -513,7 +523,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .constellation-hero,
-  .constellation-aura {
+  .constellation-aura,
+  .constellation-glow {
     animation: none;
   }
   .info-card:hover,
