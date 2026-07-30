@@ -18,6 +18,13 @@ export function middleware(request: NextRequest) {
   if (legacy[pathname]) return NextResponse.redirect(new URL(legacy[pathname], request.url));
   if (pathname === "/pt/lgpd") return NextResponse.redirect(new URL("/pt/privacidade", request.url));
   if (pathname === "/en/lgpd" || pathname === "/en/privacidade") return NextResponse.redirect(new URL("/en/privacy", request.url));
+  if (pathname === "/pt/privacy") return NextResponse.redirect(new URL("/pt/privacidade", request.url));
+  if (pathname === "/pt/terms") return NextResponse.redirect(new URL("/pt/termos", request.url));
+  if (pathname === "/pt/licenses") return NextResponse.redirect(new URL("/pt/licencas", request.url));
+  if (pathname === "/en/termos") return NextResponse.redirect(new URL("/en/terms", request.url));
+  if (pathname === "/en/licencas") return NextResponse.redirect(new URL("/en/licenses", request.url));
+  if (pathname === "/pt/suporte") return NextResponse.redirect(new URL("/pt/status", request.url));
+  if (pathname === "/en/support") return NextResponse.redirect(new URL("/en/status", request.url));
   const locale = pathname.split("/")[1];
   if (locale !== "pt" && locale !== "en") return NextResponse.redirect(new URL(`/pt${pathname}`, request.url));
   const headers = new Headers(request.headers);

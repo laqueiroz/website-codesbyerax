@@ -16,6 +16,7 @@ const eslintConfig = [
       "next-env.d.ts",
       "docs/**",
       "reference/**",
+      "design_handoff_codes_by_erax_site/**",
       "support.js",
       "Codes by Erax - Site.dc.html",
     ],

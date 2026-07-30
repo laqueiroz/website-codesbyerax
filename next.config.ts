@@ -43,6 +43,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: {
+    cpus: 2,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
   },

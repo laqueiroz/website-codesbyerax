@@ -3,13 +3,14 @@ import Link from "next/link";
 import { Cards, Hero, Section } from "@/components/localized/PageComponents";
 import { content, type Locale } from "@/content/localized";
 import { isLocale, localizedMetadata } from "@/lib/localized";
+import { ConstellationCat } from "@/components/effects/ConstellationCat";
 
 export async function generateMetadata({params}:{params:Promise<{locale:string}>}):Promise<Metadata>{const {locale}=await params;if(!isLocale(locale))return{};const c=content[locale].home;return localizedMetadata(locale,"",c.title,c.description);}
 
 export default async function Home({params}:{params:Promise<{locale:string}>}) {
   const {locale:raw}=await params; const locale=raw as Locale; const c=content[locale].home;
   return <>
-    <Hero eyebrow={c.eyebrow} title={c.hero} text={c.heroText} actions={[{label:c.primary,href:`/${locale}/vinculo-tutoria`},{label:c.secondary,href:"#projetos",secondary:true}]}/>
+    <Hero eyebrow={c.eyebrow} title={c.hero} text={c.heroText} actions={[{label:c.primary,href:`/${locale}/vinculo-tutoria`},{label:c.secondary,href:"#projetos",secondary:true}]} visual={<div className="constellation-hero" data-orbit aria-hidden="true"><div className="constellation-aura"/><ConstellationCat className="constellation-art"/></div>}/>
     <Section id="sobre" eyebrow={locale==="pt"?"Da experiência real para a tecnologia":"From real experience to technology"} title={c.experienceTitle} paragraphs={c.experience}/>
     <Section id="projetos" eyebrow={locale==="pt"?"Produto em destaque":"Featured product"} title={c.featuredTitle} paragraphs={c.featured} tone>
       <ul className="feature-list">{c.features.map((x)=><li key={x}>{x}</li>)}</ul>

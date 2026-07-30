@@ -366,3 +366,158 @@
     transform: none !important;
   }
 }
+
+/* Mockup 2026 — localized production experience */
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+  gap: clamp(34px, 5vw, 74px);
+  align-items: center;
+}
+
+.hero-section.has-visual {
+  min-height: calc(100svh - 76px);
+  display: grid;
+  align-items: center;
+  padding-block: clamp(52px, 8vw, 110px);
+}
+
+.hero-section.has-visual h1 {
+  font-size: clamp(52px, 7.4vw, 112px);
+  text-wrap: balance;
+}
+
+.constellation-hero {
+  position: relative;
+  aspect-ratio: 1.05;
+  display: grid;
+  place-items: center;
+  animation: ce-floaty 14s ease-in-out infinite;
+}
+
+.constellation-aura {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(139,92,240,.32), rgba(110,70,210,.15) 44%, rgba(127,227,232,.07) 68%, transparent 80%);
+  filter: blur(22px);
+  animation: ce-twinkle 10s ease-in-out infinite;
+}
+
+.constellation-art {
+  position: relative;
+  width: min(100%, 610px);
+  filter: drop-shadow(0 0 26px rgba(160,120,255,.52));
+  transform: scale(1.22);
+}
+
+.product-window {
+  min-width: 0;
+  transform: perspective(1400px) rotateY(-3deg);
+}
+
+.product-window figure {
+  width: min(650px, 100%);
+}
+
+.product-window figcaption {
+  color: rgb(237 234 246 / .48);
+}
+
+.card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+
+.info-card {
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  border-color: rgb(182 156 240 / .42);
+  background: rgb(18 11 38 / .8);
+}
+
+.article-grid {
+  display: block;
+}
+
+.article-grid article {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr) 130px;
+  gap: 26px;
+  align-items: center;
+  padding: 28px 8px;
+  border: 0;
+  border-bottom: 1px solid rgb(255 255 255 / .09);
+  border-radius: 0;
+  background: transparent;
+  transition: transform .25s ease, background .25s ease;
+}
+
+.article-grid article:hover {
+  transform: translateX(3px);
+  background: rgb(255 255 255 / .018);
+}
+
+.article-grid article .article-meta {
+  grid-row: 1 / span 2;
+  align-self: start;
+}
+
+.article-grid article h2 {
+  margin: 0;
+}
+
+.article-grid article > p:not(.article-meta) {
+  margin: 0;
+}
+
+.article-grid article .read-more {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  justify-self: end;
+  border: 1px solid rgb(237 234 246 / .2);
+  border-radius: 999px;
+  padding: 11px 16px;
+}
+
+@media (max-width: 1040px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .product-window {
+    transform: none;
+  }
+  .article-grid article {
+    grid-template-columns: 1fr;
+  }
+  .article-grid article .article-meta,
+  .article-grid article .read-more {
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-section.has-visual {
+    min-height: auto;
+  }
+  .constellation-hero {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .constellation-hero,
+  .constellation-aura {
+    animation: none;
+  }
+  .info-card:hover,
+  .article-grid article:hover {
+    transform: none;
+  }
+}

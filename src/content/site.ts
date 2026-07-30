@@ -126,7 +126,7 @@ export const footerNav: readonly FooterColumn[] = [
 /**
  * Os depoimentos do protótipo são placeholders escritos na voz pretendida —
  * não são declarações reais de clientes. A seção só volta ao ar quando
- * `testimonials` em content/testimonials.ts tiver depoimentos autorizados.
+ * houver depoimentos autorizados e uma seção editorial correspondente.
  */
 export const showTestimonials = false;
 

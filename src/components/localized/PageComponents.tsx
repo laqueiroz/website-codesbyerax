@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-export function Hero({ eyebrow, title, text, actions }: { eyebrow?: string; title: string; text: string[]; actions?: {label:string;href:string;secondary?:boolean}[] }) {
-  return <section className="hero-section"><div className="orb" aria-hidden="true" /><div className="page-container hero-content">{eyebrow && <p className="eyebrow">{eyebrow}</p>}<h1>{title}</h1>{text.map((p)=><p key={p}>{p}</p>)}{actions && <div className="actions">{actions.map((a)=><Link key={a.href} href={a.href} className={a.secondary ? "button secondary" : "button"}>{a.label}</Link>)}</div>}</div></section>;
+export function Hero({ eyebrow, title, text, actions, visual }: { eyebrow?: string; title: string; text: string[]; actions?: {label:string;href:string;secondary?:boolean}[]; visual?: React.ReactNode }) {
+  return <section className={`hero-section${visual ? " has-visual" : ""}`}><div className="orb" aria-hidden="true" /><div className="page-container hero-grid"><div className="hero-content" data-rise>{eyebrow && <p className="eyebrow">{eyebrow}</p>}<h1>{title}</h1>{text.map((p)=><p key={p}>{p}</p>)}{actions && <div className="actions">{actions.map((a)=><Link key={a.href} href={a.href} className={a.secondary ? "button secondary" : "button"}>{a.label}</Link>)}</div>}</div>{visual}</div></section>;
 }
 
 export function Section({ id, eyebrow, title, paragraphs, children, tone=false }: {id?:string;eyebrow?:string;title:string;paragraphs?:string[];children?:React.ReactNode;tone?:boolean}) {
