@@ -39,7 +39,7 @@ export const locales: readonly LocaleDefinition[] = [
     htmlLang: "en",
     label: "EN",
     nativeName: "English",
-    enabled: false,
+    enabled: true,
   },
 ];
 

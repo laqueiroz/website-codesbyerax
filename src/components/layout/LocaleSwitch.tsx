@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { locales } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 
@@ -23,14 +24,16 @@ export function LocaleSwitch({ className }: { className?: string }) {
     >
       {locales.map((locale) =>
         locale.enabled ? (
-          <span
+          <Link
             key={locale.code}
-            aria-current="true"
+            href={`/${locale.code}`}
+            hrefLang={locale.htmlLang}
+            lang={locale.htmlLang}
             className="bg-white-soft/92 px-2.5 py-2 font-mono text-[10.5px] font-medium leading-none text-ink-inverse"
           >
-            <span className="sr-only">Idioma atual: {locale.nativeName}. </span>
+            <span className="sr-only">{locale.nativeName}. </span>
             {locale.label}
-          </span>
+          </Link>
         ) : (
           <button
             key={locale.code}

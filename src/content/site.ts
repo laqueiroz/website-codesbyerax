@@ -45,7 +45,7 @@ export interface DownloadConfig {
 }
 
 export const vinculo: DownloadConfig = {
-  version: process.env.NEXT_PUBLIC_VINCULO_VERSION || "1.4.2",
+  version: process.env.NEXT_PUBLIC_VINCULO_VERSION || "1.4.0",
   fileSize: process.env.NEXT_PUBLIC_VINCULO_FILE_SIZE || "24 MB",
   downloadUrl: process.env.NEXT_PUBLIC_VINCULO_DOWNLOAD_URL || "",
   storeUrl: process.env.NEXT_PUBLIC_VINCULO_STORE_URL || "",
@@ -131,4 +131,4 @@ export const footerNav: readonly FooterColumn[] = [
 export const showTestimonials = false;
 
 /** Nenhum artigo publicado ainda; a rota /blog exibe estado "em construção". */
-export const showBlogPosts = false;
+export const showBlogPosts = true;

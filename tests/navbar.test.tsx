@@ -106,11 +106,10 @@ describe("menu móvel", () => {
 });
 
 describe("seletor de idioma", () => {
-  it("mostra EN desabilitado, com explicação acessível", () => {
+  it("oferece o idioma inglês como link ativo", () => {
     render(<Navbar />);
 
-    const [enButton] = screen.getAllByRole("button", { name: /english.*em breve/i });
-    expect(enButton).toBeDisabled();
-    expect(enButton).toHaveAttribute("aria-disabled", "true");
+    const [enLink] = screen.getAllByRole("link", { name: /english/i });
+    expect(enLink).toHaveAttribute("href", "/en");
   });
 });

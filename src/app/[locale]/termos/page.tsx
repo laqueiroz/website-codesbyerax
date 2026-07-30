@@ -1,0 +1,3 @@
+import type { Metadata } from "next"; import { DocumentPage } from "@/components/localized/PageComponents"; import { content,type Locale } from "@/content/localized"; import { isLocale,localizedMetadata } from "@/lib/localized";
+export async function generateMetadata({params}:{params:Promise<{locale:string}>}):Promise<Metadata>{const{locale}=await params;if(!isLocale(locale))return{};const c=content[locale].legal;return localizedMetadata(locale,"/termos",`${c.termsTitle} | Codes by Erax`,c.termsDescription,"/terms");}
+export default async function Page({params}:{params:Promise<{locale:string}>}){const{locale}=await params;const c=content[locale as Locale].legal;return <DocumentPage title={c.termsTitle} description={c.termsDescription} sections={c.terms}/>}

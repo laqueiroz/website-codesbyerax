@@ -2,14 +2,11 @@ import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
 
-import { SpaceBackground } from "@/components/effects/SpaceBackground";
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
-import { SkipLink } from "@/components/layout/SkipLink";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/content/site";
 import { fontVariables } from "@/lib/fonts";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -57,11 +54,12 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = (await headers()).get("x-site-locale");
   return (
-    <html lang="pt-BR" className={fontVariables}>
+    <html lang={locale === "en" ? "en" : "pt-BR"} className={fontVariables}>
       <body className="antialiased">
         {/*
           As revelações na rolagem começam invisíveis e contam com o
@@ -73,16 +71,7 @@ export default function RootLayout({
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
 
-        <SkipLink />
-        <SpaceBackground />
-
-        <div className="relative z-[1] mx-auto flex min-h-screen max-w-[1680px] flex-col">
-          <Navbar />
-          <main id="conteudo" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <div className="relative z-[1] min-h-screen">{children}</div>
 
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
       </body>
