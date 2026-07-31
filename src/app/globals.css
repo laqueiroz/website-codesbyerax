@@ -406,6 +406,13 @@
   animation: ce-twinkle 10s ease-in-out infinite;
 }
 
+.constellation-figure {
+  position: absolute;
+  inset: 0;
+  transform: translate(21%, 16%) scale(1.58);
+  transform-origin: center;
+}
+
 .constellation-image {
   position: absolute;
   width: 188.7%;
@@ -415,6 +422,23 @@
   top: -19.8%;
   mix-blend-mode: screen;
   filter: invert(1) hue-rotate(258deg) saturate(1.45) brightness(1.4) drop-shadow(0 0 34px rgba(160,120,255,.4));
+}
+
+.constellation-node {
+  position: absolute;
+  z-index: 3;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #fff 0 12%, #f0e6ff 20%, #c3adf3 42%, transparent 72%);
+  box-shadow: 0 0 8px rgba(255,255,255,.9), 0 0 18px rgba(195,173,243,.9), 0 0 34px rgba(139,92,240,.65);
+  animation: ce-node-pulse 4s ease-in-out infinite;
+}
+
+@keyframes ce-node-pulse {
+  0%, 100% { opacity: .22; scale: .55; }
+  45% { opacity: 1; scale: 1.35; }
+  70% { opacity: .55; scale: .9; }
 }
 
 .constellation-glow {
@@ -524,7 +548,8 @@
 @media (prefers-reduced-motion: reduce) {
   .constellation-hero,
   .constellation-aura,
-  .constellation-glow {
+  .constellation-glow,
+  .constellation-node {
     animation: none;
   }
   .info-card:hover,

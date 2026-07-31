@@ -6,12 +6,41 @@ import { content, type Locale } from "@/content/localized";
 import { isLocale, localizedMetadata } from "@/lib/localized";
 import constellationBook from "../../../design_handoff_codes_by_erax_site/assets/constellation-book.png";
 
+const CAT_NODES = [
+  [.735,.203,13],[.660,.238,8],[.594,.294,14],[.531,.362,11],[.601,.371,10],
+  [.626,.397,9],[.552,.404,8],[.470,.410,9],[.398,.455,18],[.447,.474,11],
+  [.516,.463,10],[.417,.527,9],[.372,.560,8],[.345,.607,10],[.343,.712,9],
+  [.310,.735,8],[.283,.742,11],[.660,.680,10],[.700,.735,12],[.487,.630,14],
+] as const;
+
 export async function generateMetadata({params}:{params:Promise<{locale:string}>}):Promise<Metadata>{const {locale}=await params;if(!isLocale(locale))return{};const c=content[locale].home;return localizedMetadata(locale,"",c.title,c.description);}
 
 export default async function Home({params}:{params:Promise<{locale:string}>}) {
   const {locale:raw}=await params; const locale=raw as Locale; const c=content[locale].home;
   return <>
-    <Hero eyebrow={c.eyebrow} title={c.hero} text={c.heroText} actions={[{label:c.primary,href:`/${locale}/vinculo-tutoria`},{label:c.secondary,href:"#projetos",secondary:true}]} visual={<div className="constellation-hero" data-orbit aria-hidden="true"><div className="constellation-aura"/><Image className="constellation-image constellation-glow" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/><Image className="constellation-image" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/></div>}/>
+    <Hero eyebrow={c.eyebrow} title={c.hero} text={c.heroText} actions={[{label:c.primary,href:`/${locale}/vinculo-tutoria`},{label:c.secondary,href:"#projetos",secondary:true}]} visual={
+      <div className="constellation-hero" data-orbit aria-hidden="true">
+        <div className="constellation-aura"/>
+        <div className="constellation-figure">
+          <Image className="constellation-image constellation-glow" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/>
+          <Image className="constellation-image" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/>
+          {CAT_NODES.map(([x,y,size], index) => (
+            <span
+              className="constellation-node"
+              key={`${x}-${y}`}
+              style={{
+                left: `${x * 100}%`,
+                top: `${y * 100}%`,
+                width: `${size}px`,
+                height: `${size}px`,
+                animationDuration: `${3.4 + (index % 5) * 1.1}s`,
+                animationDelay: `${(index * .37) % 3.1}s`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    }/>
     <Section id="sobre" eyebrow={locale==="pt"?"Da experiência real para a tecnologia":"From real experience to technology"} title={c.experienceTitle} paragraphs={c.experience}/>
     <Section id="projetos" eyebrow={locale==="pt"?"Produto em destaque":"Featured product"} title={c.featuredTitle} paragraphs={c.featured} tone>
       <ul className="feature-list">{c.features.map((x)=><li key={x}>{x}</li>)}</ul>
