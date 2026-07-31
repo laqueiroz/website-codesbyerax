@@ -21,7 +21,7 @@ export const siteConfig = {
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "",
 } as const;
 
-/** Marca — arquivos em /public/assets. Ver docs/assets-pendentes.md. */
+/** Marca — arquivos de produção em /public/assets. */
 export const brandAssets = {
   mark: { src: "/assets/logo-mark.png", width: 539, height: 491 },
   word: { src: "/assets/logo-word.png", width: 539, height: 187 },
