@@ -41,6 +41,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  output: process.env.STATIC_EXPORT === "1" ? "export" : undefined,
+  trailingSlash: process.env.STATIC_EXPORT === "1",
   reactStrictMode: true,
   poweredByHeader: false,
   experimental: {
@@ -48,6 +50,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    unoptimized: process.env.STATIC_EXPORT === "1",
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

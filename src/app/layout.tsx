@@ -6,7 +6,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/content/site";
 import { fontVariables } from "@/lib/fonts";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
-import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -54,12 +53,11 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const locale = (await headers()).get("x-site-locale");
   return (
-    <html lang={locale === "en" ? "en" : "pt-BR"} className={fontVariables}>
+    <html lang="pt-BR" className={fontVariables}>
       <body className="antialiased">
         {/*
           As revelações na rolagem começam invisíveis e contam com o

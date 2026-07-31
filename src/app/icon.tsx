@@ -3,6 +3,8 @@ import { join } from "node:path";
 
 import { ImageResponse } from "next/og";
 
+export const dynamic = "force-static";
+
 /**
  * Favicon gerado a partir do emblema real da marca.
  *

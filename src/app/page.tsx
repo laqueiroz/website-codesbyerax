@@ -1,5 +1,14 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default function RootPage() {
-  redirect("/pt");
+  return (
+    <>
+      <meta httpEquiv="refresh" content="0;url=/pt/" />
+      <main className="document page-container narrow">
+        <p className="eyebrow">Codes by Erax</p>
+        <h1>Redirecionando…</h1>
+        <Link className="button" href="/pt/">Acessar o site</Link>
+      </main>
+    </>
+  );
 }

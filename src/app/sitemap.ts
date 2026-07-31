@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { content } from "@/content/localized";
 import { siteConfig } from "@/content/site";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const bases = {pt:["","/vinculo-tutoria","/blog","/privacidade","/termos","/licencas","/changelog","/feedback","/status"],en:["","/vinculo-tutoria","/blog","/privacy","/terms","/licenses","/changelog","/feedback","/status"]} as const;
   const routes = (["pt","en"] as const).flatMap(locale => [
