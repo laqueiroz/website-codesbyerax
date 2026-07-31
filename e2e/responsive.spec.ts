@@ -31,7 +31,7 @@ async function skipIntro(page: Page) {
 
 test("todas as rotas PT e EN respondem e não transbordam", async ({ page }) => {
   await skipIntro(page);
-  for (const width of [390, 768, 1440]) {
+  for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of ROUTES) {
       const response = await page.goto(route);
