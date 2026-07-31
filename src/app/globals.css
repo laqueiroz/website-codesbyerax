@@ -420,18 +420,25 @@
 
 .constellation-figure {
   position: absolute;
-  inset: 0;
-  transform: translate(21%, 16%) scale(1.58);
+  inset: 3%;
+  transform: scale(.94);
   transform-origin: center;
+}
+
+.constellation-crop {
+  position: absolute;
+  left: -49.1%;
+  top: -19.8%;
+  width: 188.7%;
+  aspect-ratio: 3 / 2;
 }
 
 .constellation-image {
   position: absolute;
-  width: 188.7%;
+  inset: 0;
+  width: 100%;
   max-width: none;
-  height: auto;
-  left: -49.1%;
-  top: -19.8%;
+  height: 100%;
   mix-blend-mode: screen;
   filter: invert(1) hue-rotate(258deg) saturate(1.45) brightness(1.4) drop-shadow(0 0 34px rgba(160,120,255,.4));
 }

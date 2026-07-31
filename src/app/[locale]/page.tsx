@@ -22,22 +22,24 @@ export default async function Home({params}:{params:Promise<{locale:string}>}) {
       <div className="constellation-hero" data-orbit aria-hidden="true">
         <div className="constellation-aura"/>
         <div className="constellation-figure">
-          <Image className="constellation-image constellation-glow" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/>
-          <Image className="constellation-image" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/>
-          {CAT_NODES.map(([x,y,size], index) => (
-            <span
-              className="constellation-node"
-              key={`${x}-${y}`}
-              style={{
-                left: `${x * 100}%`,
-                top: `${y * 100}%`,
-                width: `${size}px`,
-                height: `${size}px`,
-                animationDuration: `${3.4 + (index % 5) * 1.1}s`,
-                animationDelay: `${(index * .37) % 3.1}s`,
-              }}
-            />
-          ))}
+          <div className="constellation-crop">
+            <Image className="constellation-image constellation-glow" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/>
+            <Image className="constellation-image" src={constellationBook} alt="" priority sizes="(min-width: 901px) 48vw, 0px"/>
+            {CAT_NODES.map(([x,y,size], index) => (
+              <span
+                className="constellation-node"
+                key={`${x}-${y}`}
+                style={{
+                  left: `${x * 100}%`,
+                  top: `${y * 100}%`,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  animationDuration: `${3.4 + (index % 5) * 1.1}s`,
+                  animationDelay: `${(index * .37) % 3.1}s`,
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     }/>
