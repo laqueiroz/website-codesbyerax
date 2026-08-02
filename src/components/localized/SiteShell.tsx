@@ -33,6 +33,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
     [`/${locale}`, copy.home],
     [`/${locale}/vinculo-tutoria`, copy.product],
     [`/${locale}/blog`, copy.blog],
+    [locale === "pt" ? "/pt/orcamento" : "/en/quote", locale === "pt" ? "Orçamento" : "Get a quote"],
     [`/${locale}#sobre`, copy.about],
     [`/${locale}/vinculo-tutoria#faq`, copy.support],
   ];
@@ -72,7 +73,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
         <div className="footer-grid">
           <div><h2>{locale === "pt" ? "Produto" : "Product"}</h2><Link href={`/${locale}/vinculo-tutoria`}>Vínculo Tutoria</Link><Link href={`/${locale}/vinculo-tutoria#recursos`}>{locale === "pt" ? "Recursos" : "Features"}</Link><Link href={`/${locale}/vinculo-tutoria#tutorial`}>Tutorial</Link><Link href={`/${locale}/vinculo-tutoria#download`}>Download</Link><Link href={`/${locale}/changelog`}>{copy.changelog}</Link></div>
           <div><h2>{locale === "pt" ? "Conteúdo" : "Content"}</h2><Link href={`/${locale}/blog`}>Blog</Link><Link href={`/${locale}/vinculo-tutoria#faq`}>{locale === "pt" ? "Perguntas frequentes" : "Frequently Asked Questions"}</Link><Link href={`/${locale}/feedback`}>{copy.feedback}</Link></div>
-          <div><h2>Codes by Erax</h2><Link href={`/${locale}#sobre`}>{copy.about}</Link><Link href={`/${locale}/feedback`}>{locale === "pt" ? "Contato" : "Contact"}</Link><Link href={`/${locale}#projetos`}>{locale === "pt" ? "Projetos" : "Projects"}</Link></div>
+          <div><h2>Codes by Erax</h2><Link href={`/${locale}#sobre`}>{copy.about}</Link><Link href={locale === "pt" ? "/pt/orcamento" : "/en/quote"}>{locale === "pt" ? "Orçamento" : "Get a quote"}</Link><Link href={`/${locale}/feedback`}>{locale === "pt" ? "Contato" : "Contact"}</Link><Link href={`/${locale}#projetos`}>{locale === "pt" ? "Projetos" : "Projects"}</Link></div>
           <div><h2>Legal</h2><Link href={locale === "pt" ? "/pt/privacidade" : "/en/privacy"}>{copy.privacy}</Link><Link href={locale === "pt" ? "/pt/termos" : "/en/terms"}>{copy.terms}</Link><Link href={locale === "pt" ? "/pt/licencas" : "/en/licenses"}>{copy.licenses}</Link><Link href={`/${locale}/status`}>Status</Link></div>
         </div>
         <div className="footer-signature">

@@ -292,6 +292,8 @@ content.en = {
 };
 
 export const routePairs: Record<string, string> = Object.fromEntries([
+  ["/pt/orcamento", "/en/quote"],
+  ["/en/quote", "/pt/orcamento"],
   ...ptArticles.map((a) => [`/pt/blog/${a.slug}`, `/en/blog/${a.alternateSlug}`]),
   ...enArticles.map((a) => [`/en/blog/${a.slug}`, `/pt/blog/${a.alternateSlug}`]),
 ]);

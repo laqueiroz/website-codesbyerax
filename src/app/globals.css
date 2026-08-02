@@ -373,6 +373,19 @@
   }
 }
 
+/* Project quote */
+.quote-hero{position:relative;overflow:hidden;padding:clamp(90px,12vw,170px) 0 clamp(70px,9vw,120px);border-bottom:1px solid rgb(182 156 240/.12)}
+.quote-hero:after{content:"";position:absolute;width:560px;height:560px;right:-100px;top:-210px;border-radius:50%;background:radial-gradient(circle,rgb(127 227 232/.16),rgb(120 66 220/.18) 38%,transparent 70%);filter:blur(14px)}
+.quote-hero h1{position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(50px,7.5vw,100px);font-weight:300;line-height:1;letter-spacing:-.03em;max-width:1050px;margin:22px 0 28px;color:var(--color-white-hi)}
+.quote-hero p:not(.eyebrow){position:relative;z-index:1;max-width:760px;font-size:clamp(17px,2vw,21px);line-height:1.7;color:rgb(237 234 246/.76)}
+.quote-services{padding-top:clamp(64px,8vw,105px)}
+.quote-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(460px,1.2fr);gap:clamp(48px,7vw,110px);align-items:start}
+.quote-form{padding:clamp(24px,4vw,42px);border:1px solid rgb(182 156 240/.22);border-radius:var(--radius-panel);background:rgb(10 7 24/.76);box-shadow:0 30px 80px rgb(0 0 0/.2)}
+.quote-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.quote-steps{list-style:none;margin:34px 0 0;padding:0}.quote-steps li{position:relative;padding:15px 0 15px 34px;border-bottom:1px solid rgb(182 156 240/.16);color:rgb(237 234 246/.72)}.quote-steps li:before{content:"✦";position:absolute;left:4px;color:var(--color-cyan-400)}
+@media(max-width:900px){.quote-layout{grid-template-columns:1fr}.quote-form{max-width:760px}}
+@media(max-width:600px){.quote-form-grid{grid-template-columns:1fr}.quote-form{padding:22px}.quote-hero h1{font-size:50px}}
+
 /* Mockup 2026 — localized production experience */
 .hero-grid {
   position: relative;
