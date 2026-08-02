@@ -4,7 +4,7 @@ import { isLocale, localizedMetadata } from "@/lib/localized";
 
 const serviceStates = [
   { id: "site", state: "operational" },
-  { id: "downloads", state: "operational" },
+  { id: "downloads", state: "unavailable" },
   { id: "app", state: "operational" },
 ] as const;
 
@@ -15,6 +15,7 @@ const statusCopy = {
     intro: "O Vínculo Tutoria funciona localmente: mesmo que um serviço online esteja indisponível, o aplicativo instalado continua funcionando normalmente.",
     notice: "Este painel é atualizado manualmente pela Codes by Erax e não representa monitoramento automático em tempo real.",
     operational: "Operacional",
+    unavailable: "Indisponível",
     services: [
       { name: "Site institucional", description: "Páginas públicas, conteúdo e formulários." },
       { name: "Distribuição de downloads", description: "Disponibilidade do instalador oficial do Vínculo Tutoria." },
@@ -27,6 +28,7 @@ const statusCopy = {
     intro: "Vínculo Tutoria works locally: even if an online service is unavailable, the installed application continues to work normally.",
     notice: "This page is updated manually by Codes by Erax and does not represent automated real-time monitoring.",
     operational: "Operational",
+    unavailable: "Unavailable",
     services: [
       { name: "Official website", description: "Public pages, content, and forms." },
       { name: "Download distribution", description: "Availability of the official Vínculo Tutoria installer." },
@@ -62,9 +64,9 @@ export default async function StatusPage({ params }: { params: Promise<{ locale:
                 <h2>{copy.services[index]!.name}</h2>
                 <p>{copy.services[index]!.description}</p>
               </div>
-              <span className="status-operational">
+              <span className={`status-state status-${service.state}`}>
                 <span aria-hidden="true" />
-                {copy.operational}
+                {copy[service.state]}
               </span>
             </article>
           ))}

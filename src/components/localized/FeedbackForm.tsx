@@ -14,19 +14,36 @@ export function FeedbackForm({ locale }: { locale: Locale }) {
     const data = Object.fromEntries(new FormData(form));
     if (String(data.website || "")) return setStatus("success");
 
-    if (process.env.NEXT_PUBLIC_STATIC_SITE === "1") {
-      form.reset();
-      setStatus("success");
-      return;
-    }
-
     try {
-      const response = await fetch("/api/feedback", {
+      const message = [
+        `${copy.role}: ${data.role}`,
+        `${copy.version}: ${data.version}`,
+        `${copy.rating}: ${data.rating}`,
+        `${copy.useful}: ${data.useful}`,
+        "",
+        `${copy.problem}:`,
+        String(data.problem || "—"),
+        "",
+        `${copy.improve}:`,
+        String(data.improve),
+        "",
+        `${copy.consent}: ${data.consent}`,
+      ].join("\n");
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
+        headers: { "content-type": "application/json", accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "c925d099-5cb7-464c-bd3f-30bd1cb2dc2e",
+          name: data.name,
+          email: data.email,
+          subject: `[Feedback] Vínculo Tutoria — ${data.rating}`,
+          message,
+          from_name: "Codes by Erax — Feedback",
+          botcheck: "",
+        }),
       });
-      if (!response.ok) throw new Error();
+      const result = await response.json() as { success?: boolean };
+      if (!response.ok || !result.success) throw new Error();
       form.reset();
       setStatus("success");
     } catch {

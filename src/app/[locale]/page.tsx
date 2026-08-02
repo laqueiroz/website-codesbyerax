@@ -50,6 +50,6 @@ export default async function Home({params}:{params:Promise<{locale:string}>}) {
     </Section>
     <Section title={c.principlesTitle}><Cards items={c.principles}/></Section>
     <Section title={c.contentTitle} paragraphs={[c.contentText]} tone><Link className="button" href={`/${locale}/blog`}>{c.blogButton}</Link></Section>
-    <Section title={c.ctaTitle} paragraphs={[c.ctaText]}><div className="actions"><Link className="button" href={`/${locale}/vinculo-tutoria`}>{c.primary}</Link><Link className="button secondary" href={`/${locale}/feedback`}>{c.contact}</Link></div></Section>
+    <Section title={c.ctaTitle} paragraphs={[c.ctaText]}><div className="actions"><Link className="button" href={`/${locale}/vinculo-tutoria`}>{c.primary}</Link><Link className="button secondary" href={locale === "pt" ? "/pt/orcamento" : "/en/quote"}>{c.contact}</Link></div></Section>
   </>;
 }

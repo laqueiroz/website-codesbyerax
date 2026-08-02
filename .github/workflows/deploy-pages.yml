@@ -40,6 +40,7 @@ jobs:
           STATIC_EXPORT: "1"
           NEXT_PUBLIC_STATIC_SITE: "1"
           NEXT_PUBLIC_SITE_URL: https://codesbyerax.com.br
+          NEXT_PUBLIC_SUPPORT_EMAIL: suporte@codesbyerax.com.br
         run: npm run build
 
       - name: Configure Pages

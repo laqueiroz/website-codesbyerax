@@ -6,7 +6,7 @@ const legacy: Record<string, string> = {
   "/privacidade": "/pt/privacidade", "/termos": "/pt/termos",
   "/licencas": "/pt/licencas", "/changelog": "/pt/changelog",
   "/sobre": "/pt#sobre", "/suporte": "/pt/vinculo-tutoria#faq",
-  "/downloads": "/pt/vinculo-tutoria#download", "/contato": "/pt/feedback",
+  "/downloads": "/pt/vinculo-tutoria#download", "/contato": "/pt/orcamento",
   "/produtos": "/pt#projetos", "/status": "/pt/status",
   "/lgpd": "/pt/privacidade",
 };

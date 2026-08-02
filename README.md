@@ -9,7 +9,8 @@ Site institucional bilíngue da Codes by Erax e do Vínculo Tutoria.
 - Tailwind CSS 4
 - Framer Motion
 - Vitest e Playwright
-- Resend para os endpoints de formulário em hospedagens com runtime Node.js
+- Web3Forms para receber orçamentos e feedback no GitHub Pages
+- Resend disponível para endpoints em hospedagens com runtime Node.js
 
 ## Desenvolvimento
 
@@ -32,8 +33,8 @@ npm run test:e2e
 
 ## Rotas
 
-As páginas públicas usam prefixos `/pt` e `/en`: home, Vínculo Tutoria, blog,
-artigos, changelog, feedback, status, privacidade, termos, licenças e 404.
+As páginas públicas usam prefixos `/pt` e `/en`: home, Vínculo Tutoria, orçamento,
+blog, artigos, changelog, feedback, status, privacidade, termos, licenças e 404.
 A troca de idioma mantém a página e o artigo equivalentes.
 
 ## Conteúdo e interface
@@ -50,12 +51,12 @@ Consulte `.env.example`. As principais são:
 
 - `NEXT_PUBLIC_SITE_URL`
 - `NEXT_PUBLIC_VINCULO_DOWNLOAD_URL`
-- `RESEND_API_KEY`
-- `CONTACT_TO_EMAIL`
-- `CONTACT_FROM_EMAIL`
+- `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL` somente para os
+  endpoints opcionais em hospedagens com runtime Node.js
 
-Sem URL de download, o botão permanece indisponível. Sem configuração de e-mail,
-os endpoints respondem com erro de configuração em vez de simular sucesso.
+Sem URL de download, o botão permanece indisponível. Na publicação estática do
+GitHub Pages, os formulários públicos são enviados diretamente ao Web3Forms.
+Os endpoints opcionais respondem com erro quando o Resend não está configurado.
 
 ## Publicação
 
