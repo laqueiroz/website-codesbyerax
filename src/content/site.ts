@@ -48,7 +48,9 @@ export const vinculo: DownloadConfig = {
   version: process.env.NEXT_PUBLIC_VINCULO_VERSION || "1.4.0",
   fileSize: process.env.NEXT_PUBLIC_VINCULO_FILE_SIZE || "24 MB",
   downloadUrl: process.env.NEXT_PUBLIC_VINCULO_DOWNLOAD_URL || "",
-  storeUrl: process.env.NEXT_PUBLIC_VINCULO_STORE_URL || "",
+  storeUrl:
+    process.env.NEXT_PUBLIC_VINCULO_STORE_URL ||
+    "https://apps.microsoft.com/detail/9PMP1T5VWDGB?hl=pt-br&gl=BR&ocid=pdpshare",
   sha256: process.env.NEXT_PUBLIC_VINCULO_SHA256 || "",
   platform: "Windows 10 / 11 · 64 bits",
   requirements: [

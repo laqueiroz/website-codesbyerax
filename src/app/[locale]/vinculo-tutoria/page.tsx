@@ -5,6 +5,7 @@ import { AppWindowMock } from "@/components/home/AppWindowMock";
 import { Cards, Hero, Section } from "@/components/localized/PageComponents";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { content, type Locale } from "@/content/localized";
+import { vinculo } from "@/content/site";
 import { isLocale, localizedMetadata } from "@/lib/localized";
 
 export async function generateMetadata({
@@ -67,9 +68,16 @@ export default async function Product({
       <Section id="download" title={copy.downloadTitle} paragraphs={copy.downloadText}>
         <ul className="fact-list">{copy.downloadFacts.map((item) => <li key={item}>{item}</li>)}</ul>
         <aside className="notice"><h3>{copy.windowsTitle}</h3><p>{copy.windows}</p></aside>
-        {process.env.NEXT_PUBLIC_VINCULO_DOWNLOAD_URL ? (
-          <a className="button" href={process.env.NEXT_PUBLIC_VINCULO_DOWNLOAD_URL}>
-            {locale === "pt" ? "Baixar para Windows" : "Download for Windows"}
+        {vinculo.storeUrl || vinculo.downloadUrl ? (
+          <a
+            className="button"
+            href={vinculo.storeUrl || vinculo.downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {vinculo.storeUrl
+              ? locale === "pt" ? "Baixar na Microsoft Store" : "Get it from Microsoft Store"
+              : locale === "pt" ? "Baixar para Windows" : "Download for Windows"}
           </a>
         ) : (
           <span className="button disabled" aria-disabled="true">
