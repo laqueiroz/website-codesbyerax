@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/content/site";
+import { cspMeta } from "@/lib/csp";
 import { fontVariables } from "@/lib/fonts";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
@@ -38,6 +39,7 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+  referrer: "strict-origin-when-cross-origin",
   formatDetection: { telephone: false, address: false, email: false },
   other: {
     // Verificação de domínio do Zoho Mail.
@@ -58,6 +60,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={fontVariables}>
+      <head>
+        {/*
+          O GitHub Pages não envia cabeçalhos de segurança; a CSP vai como meta
+          tag. O script abaixo impede que o site seja exibido dentro de um
+          <iframe> de outro domínio (clickjacking), papel que o cabeçalho
+          X-Frame-Options/frame-ancestors faria numa hospedagem com servidor.
+        */}
+        <meta httpEquiv="Content-Security-Policy" content={cspMeta} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location.replace(window.self.location.href)}catch(e){}}",
+          }}
+        />
+      </head>
       <body className="antialiased">
         {/*
           As revelações na rolagem começam invisíveis e contam com o
