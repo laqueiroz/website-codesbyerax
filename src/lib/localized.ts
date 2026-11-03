@@ -15,7 +15,8 @@ export function getCopy(locale: string) {
 export function localizedMetadata(locale: Locale, path: string, title: string, description: string, alternatePath = path): Metadata {
   const url = `${siteConfig.url}/${locale}${path}`;
   return {
-    title, description,
+    // Os títulos já chegam com a marca; "absolute" evita o template "%s · Codes by Erax" do layout raiz.
+    title: { absolute: title }, description,
     alternates: {
       canonical: url,
       languages: {

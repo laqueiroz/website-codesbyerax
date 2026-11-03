@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { content, routePairs, type Locale } from "@/content/localized";
 
-function languagePath(pathname: string, locale: Locale) {
+function languagePath(rawPathname: string, locale: Locale) {
+  // O export estático usa trailingSlash, então "/pt/blog/x/" precisa casar com "/pt/blog/x".
+  const pathname = rawPathname.length > 1 ? rawPathname.replace(/\/+$/, "") : rawPathname;
   const mapped = routePairs[pathname];
   if (mapped) {
     const currentLocale = pathname.split("/")[1];
